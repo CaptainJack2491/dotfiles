@@ -1,5 +1,9 @@
 local plugins = {
   {
+    "christoomey/vim-tmux-navigator",
+    lazy = false,
+  },
+  {
     "MunifTanjim/prettier.nvim",
     ft = {"html","css"}
   },
