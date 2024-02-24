@@ -101,7 +101,7 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 fcd (){
-  cd $(find $(pwd) -type d | fzf)
+  cd "$(find $(pwd) -type d | fzf)"
 }
 
 
