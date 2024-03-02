@@ -17,3 +17,8 @@ lspconfig.jdtls.setup({
   filetypes = {"java"}
 })
 
+lspconfig.marksman.setup({
+  on_attach = on_attach,
+  capabilities = capabilities,
+  filetypes = {"markdown"}
+})
