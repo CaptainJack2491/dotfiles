@@ -2,7 +2,7 @@
 {
     "layer": "top",
     "position": "top",
-    "margin": 5,
+    // "margin": 5,
 
     // If height property would be not present, it'd be calculated dynamically
     // "height": 30,
@@ -55,7 +55,8 @@
         "format-plugged": "{capacity}% ",
         // "format-good": "", // An empty format will hide the module
         // "format-full": "",
-        "format-icons": ["", "", "", "", ""]
+        "format-icons": ["", "", "", "", ""],
+        "on-click": "kitty -e auto-cpufreq --stats",
     },
 
     "custom/PBPbattery": {
@@ -130,16 +131,17 @@
         "disable-scroll": true,
         "disable-markup" : false,
         "all-outputs": true,
-        "format": "{name}",
+        "format": "{icon}",
         //"format":"{name}:{icon}",
         "format-icons": {
             "1": "󰅬",
             "2": "",
-            "3": "󰨞",
-            "4": "󰙯",
-            "5": "󰡨",
-            "6": "",
-            "7": ""
+            // "3": "󰨞",
+            // "4": "󰙯",
+            // "5": "󰡨",
+            // "6": "",
+            // "7": "",
+            "10": ""
         }
     },
 

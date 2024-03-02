@@ -70,7 +70,12 @@ ZSH_THEME="theunraveler"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git 
+  zsh-autosuggestions 
+  # zsh-syntax-highlighting 
+  fast-syntax-highlighting 
+  # zsh-autocomplete
+)
 
 source $ZSH/oh-my-zsh.sh
 
