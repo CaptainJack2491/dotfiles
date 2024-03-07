@@ -104,8 +104,8 @@
 
     "network": {
         "interval": 5,
-        "format-wifi": " ", // Icon: wifi
-        "format-ethernet": " ", // Icon: ethernet
+        "format-wifi": "", // Icon: wifi
+        "format-ethernet": "", // Icon: ethernet
         "format-disconnected": "⚠  Disconnected",
         "tooltip-format": "{ifname}: {ipaddr}",
         "on-click": "kitty -e 'nmtui'",
@@ -136,8 +136,8 @@
         "format-icons": {
             "1": "󰅬",
             "2": "",
-            // "3": "󰨞",
-            // "4": "󰙯",
+            "3": "",
+            "4": "",
             // "5": "󰡨",
             // "6": "",
             // "7": "",
