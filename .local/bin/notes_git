@@ -1,0 +1,19 @@
+#!/bin/bash
+
+cd /home/jayrup/notes/
+
+message_prefix="autocommit:"
+
+# Check for uncommitted changes
+if git status --porcelain | grep -q '^ [^ ]*'; then
+  timestamp=$(date +'%Y-%m-%d %H:%M:%S')
+  commit_message="${message_prefix} ${timestamp}"
+
+  git add .
+  git commit -m "${commit_message}"
+  git push
+
+  notify-send "Notes pushed with message: ${commit_message}"
+else
+  notify-send "No changes detected. Skipping commit and push."
+fi

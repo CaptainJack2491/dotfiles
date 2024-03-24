@@ -116,3 +116,5 @@ alias vim="nvim"
 alias hconf="nvim /home/jayrup/.config/hypr/hyprland.conf"
 
 PATH=/home/jayrup/.local/bin:$PATH
+
+eval "$(zoxide init zsh)"

@@ -1,0 +1,3 @@
+#!/bin/bash
+
+sshfs jayrup@archserver:/home/jayrup /home/jayrup/server/ -o idmap=user
