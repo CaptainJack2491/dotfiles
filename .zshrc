@@ -106,9 +106,12 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 fcd (){
-  cd "$(find $(pwd) -type d | fzf)"
+  cd "$(fd --full-path $(pwd) -t d | fzf)"
 }
 
+qnvim (){
+  export NVIM_APPNAME='kickstart' && nvim $(pwd)
+}
 
 neofetch
 alias vi="nvim"

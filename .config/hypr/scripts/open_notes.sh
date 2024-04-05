@@ -21,3 +21,4 @@ tmux select-window -t:1
 kitty --title=notes -e tmux attach -t notes
 
 hyprctl dispatch workspace 10
+hyprctl dispatch workspace 1
