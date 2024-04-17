@@ -109,14 +109,14 @@ fcd (){
   cd "$(fd --full-path $(pwd) -t d | fzf)"
 }
 
-qnvim (){
+qnvimt (){
   export NVIM_APPNAME='kickstart' && nvim $(pwd)
 }
 
 neofetch
 alias vi="nvim"
 alias vim="nvim"
-alias hconf="nvim /home/jayrup/.config/hypr/hyprland.conf"
+alias hconf="cd ~/.config && nvim /home/jayrup/.config/hypr/hyprland.conf"
 
 PATH=/home/jayrup/.local/bin:$PATH
 
