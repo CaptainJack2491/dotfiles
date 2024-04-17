@@ -1,5 +1,11 @@
 local plugins = {
   {
+    "lervag/vimtex",
+    init = function()
+      -- Use init for configuration, don't use the more common "config".
+    end
+  },
+  {
     "jiaoshijie/undotree",
     dependencies = "nvim-lua/plenary.nvim",
     config = true,
@@ -7,18 +13,31 @@ local plugins = {
       { "<leader>u", "<cmd>lua require('undotree').toggle()<cr>" },
     },
   },
-  -- {
-  --   "ThePrimeagen/harpoon",
-  --   branch = "harpoon2",
-  --   dependencies = { "nvim-lua/plenary.nvim" },
-  --   config = function ()
-  --     local harpoon = require("harpoon")
-  --     harpoon.setup()
-  --
-  --     vim.keymap.set("n", "<leader>a", function() harpoon:list():append() end)
-  --     vim.keymap.set("n", "<C-e>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
-  --   end
-  -- },
+  {
+    "folke/zen-mode.nvim",
+    lazy = false,
+    opts = {
+      number = true,
+    }
+  },
+  {
+    "ThePrimeagen/harpoon",
+    branch = "harpoon2",
+    lazy = false,
+    dependencies = { "nvim-lua/plenary.nvim" },
+    config = function ()
+      local harpoon = require("harpoon")
+      harpoon.setup()
+
+      vim.keymap.set("n", "<M-q>", function() harpoon:list():select(1) end)
+      vim.keymap.set("n", "<M-w>", function() harpoon:list():select(2) end)
+      vim.keymap.set("n", "<M-e>", function() harpoon:list():select(3) end)
+      vim.keymap.set("n", "<M-r>", function() harpoon:list():select(4) end)
+
+      vim.keymap.set("n", "<leader>a", function() harpoon:list():append() end)
+      vim.keymap.set("n", "<C-e>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
+    end
+  },
   {
     "epwalsh/obsidian.nvim",
     version = "*",  -- recommended, use latest release instead of latest commit
