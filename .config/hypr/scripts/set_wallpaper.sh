@@ -11,15 +11,17 @@ while IFS= read -r line; do
     # If Hyprpaper is running, change the wallpaper
     hyprctl hyprpaper preload $line
     hyprctl hyprpaper wallpaper "eDP-1,$line"
+    hyprctl hyprpaper wallpaper "HDMI-A-1,$line"
   else
     # If Hyprpaper is not running, start it and then change the wallpaper
     hyprctl hyprpaper preload $line
     hyprctl hyprpaper wallpaper "eDP-1,$line"
+    hyprctl hyprpaper wallpaper "HDMI-A-1,$line"
     hyprpaper &
     sleep 1
   fi
   wal -i $line
-  
+ 
 done < "$input"
 
 # Exit script with successful execution code
