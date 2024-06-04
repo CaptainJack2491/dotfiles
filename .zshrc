@@ -1,5 +1,5 @@
 # If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+# export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
@@ -8,7 +8,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="theunraveler"
+ZSH_THEME="robbyrussell"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -70,12 +70,7 @@ ZSH_THEME="theunraveler"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git 
-  zsh-autosuggestions 
-  # zsh-syntax-highlighting 
-  fast-syntax-highlighting 
-  # zsh-autocomplete
-)
+plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -104,20 +99,19 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-
 fcd (){
   cd "$(fd --full-path $(pwd) -t d | fzf)"
 }
 
-qnvimt (){
-  export NVIM_APPNAME='kickstart' && nvim $(pwd)
-}
+# qnvimt (){
+#   export NVIM_APPNAME='kickstart' && nvim $(pwd)
+# }
 
-neofetch
+fastfetch
 alias vi="nvim"
 alias vim="nvim"
-alias hconf="cd ~/.config && nvim /home/jayrup/.config/hypr/hyprland.conf"
+alias hconf="cd ~/dotfiles/.config && nvim /home/jayrup/.config/hypr/hyprland.conf"
 
-PATH=/home/jayrup/.local/bin:$PATH
+# PATH=/home/jayrup/.local/bin:$PATH
 
-eval "$(zoxide init zsh)"
+# eval "$(zoxide init zsh)"

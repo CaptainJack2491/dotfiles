@@ -141,7 +141,7 @@
       "disable-scroll": true,
       "disable-markup" : false,
       "all-outputs": true,
-      "format": "{icon}",
+      "format": "{name}",
         //"format":"{name}:{icon}",
         "format-icons": {
           "1": "󰅬",
