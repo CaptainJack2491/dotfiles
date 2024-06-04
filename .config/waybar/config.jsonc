@@ -9,31 +9,32 @@
     "reload_style_on_change": true,
 
     "modules-left": [
-        // "custom/launcher",
-        "clock",
-        "custom/media",
-        "hyprland/window",
-        "custom/updates"
+      // "custom/launcher",
+      "hyprland/workspaces",
+      "custom/media",
+      "hyprland/window",
+      "custom/updates"
     ],
 
     "modules-center": [
-      "hyprland/workspaces",
+      "clock",
       "custom/weather"
     ],
 
     "modules-right": [
       "tray",
-        // "idle_inhibitor",
-        "memory",
-        "cpu",
-        // "custom/keyboard-layout",
-        //"custom/PBPbattery",
-        // "backlight#icon",
-        // "backlight#value",
-        "pulseaudio",
-        "pulseaudio#microphone",
-        "network",
-        "battery",
+      // "idle_inhibitor",
+      "cpu",
+      "memory",
+      "custom/ping",
+      // "custom/keyboard-layout",
+      //"custom/PBPbattery",
+      // "backlight#icon",
+      // "backlight#value",
+      "pulseaudio",
+      "pulseaudio#microphone",
+      "network",
+      "battery"
     ],
 
     // Modules
@@ -57,8 +58,8 @@
       "format-plugged": "{capacity}% ",
         // "format-good": "", // An empty format will hide the module
         // "format-full": "",
-        "format-icons": ["", "", "", "", ""],
-        "on-click": "kitty -e auto-cpufreq --stats",
+        "format-icons": ["", "", "", "", ""]
+        // "on-click": "kitty -e auto-cpufreq --stats"
     },
 
     "custom/PBPbattery": {
@@ -78,9 +79,9 @@
       "format": "  {usage}%",  // Icon: microchip
       "states": {
         "warning": 70,
-        "critical": 90,
+        "critical": 90
       },
-      "on-click": "kitty -e 'btop'",
+      "on-click": "kitty -e 'btop'"
     },
 
     "custom/keyboard-layout": {
@@ -192,12 +193,16 @@
     "custom/weather": {
       "exec": "~/.config/waybar/scripts/weather.sh london", 
       "return-type": "json",
-      "interval": 600,
+      "interval": 600
     },
 
+    "custom/ping": {
+      "exec": "/bin/python3 ~/.config/waybar/scripts/ping_module.py",
+      "interval":10
+    },
     "tray": {
       "icon-size": 18,
-      "spacing":10,
+      "spacing":10
     },
 
     "backlight#icon": {
