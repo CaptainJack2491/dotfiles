@@ -64,7 +64,7 @@
 
     "custom/PBPbattery": {
       "exec": "~/.config/waybar/scripts/PBPbattery.sh",
-      "format": "{}",
+      "format": "{}"
     },
 
     "clock": {
@@ -198,7 +198,7 @@
 
     "custom/ping": {
       "exec": "/bin/python3 ~/.config/waybar/scripts/ping_module.py",
-      "interval":10
+      "interval":2
     },
     "tray": {
       "icon-size": 18,

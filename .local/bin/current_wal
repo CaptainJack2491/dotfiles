@@ -1,0 +1,13 @@
+#!/bin/sh
+
+# Get the output of hyprctl hyprpaper listactive
+output=$(hyprctl hyprpaper listactive)
+
+# Extract the path using awk
+wallpaper_path=$(echo "$output" | grep eDP-1 | awk -F= '{print $2}')
+
+# Remove leading/trailing spaces (optional)
+trimmed_path=$(echo "$wallpaper_path" | sed 's/^\s*//; s/\s*$//')
+
+# Print the wallpaper path
+echo "$trimmed_path"

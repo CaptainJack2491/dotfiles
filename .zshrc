@@ -112,6 +112,6 @@ alias vi="nvim"
 alias vim="nvim"
 alias hconf="cd ~/dotfiles/.config && nvim /home/jayrup/.config/hypr/hyprland.conf"
 
-# PATH=/home/jayrup/.local/bin:$PATH
+PATH=/home/jayrup/.local/bin:$PATH
 
 # eval "$(zoxide init zsh)"
