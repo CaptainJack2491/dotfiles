@@ -111,6 +111,8 @@ fastfetch
 alias vi="nvim"
 alias vim="nvim"
 alias hconf="cd ~/dotfiles/.config && nvim /home/jayrup/.config/hypr/hyprland.conf"
+alias vpnexit="sudo tailscale up --exit-node=vps-server --exit-node-allow-lan-access"
+alias vpnreset="sudo tailscale up --reset"
 
 PATH=/home/jayrup/.local/bin:$PATH
 
