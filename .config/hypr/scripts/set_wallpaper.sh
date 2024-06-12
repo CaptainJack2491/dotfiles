@@ -1,32 +1,30 @@
 #!/bin/bash
 
+# Check if a file argument was provided
+if [ -z "$1" ]; then
+    echo "Error: Please provide a wallpaper file as an argument."
+    exit 1
+fi
 
-input="${1:-/dev/stdin}"
+# Check if the file exists
+if [ ! -f "$1" ]; then
+    echo "Error: File not found: $1"
+    exit 1
+fi
 
-# Process the input here
-while IFS= read -r line; do
-  # Print the input here (including arguments)
-  echo "Changing the wallpaper to $line"
-  if pgrep -x hyprpaper > /dev/null; then
-    # If Hyprpaper is running, change the wallpaper
-    hyprctl hyprpaper preload $line
-    hyprctl hyprpaper wallpaper "eDP-1,$line"
-    hyprctl hyprpaper wallpaper "HDMI-A-1,$line"
-  else
-    # If Hyprpaper is not running, start it and then change the wallpaper
-    hyprctl hyprpaper preload $line
-    hyprctl hyprpaper wallpaper "eDP-1,$line"
-    hyprctl hyprpaper wallpaper "HDMI-A-1,$line"
-    hyprpaper &
-    sleep 1
-  fi
-  wal -i $line
- 
-done < "$input"
+# Path to your hyprpaper configuration file
+hyprpaper_config_file="$HOME/.config/hypr/hyprpaper.conf"
 
-# Exit script with successful execution code
-exit 0
+# Update the config file with the new wallpaper path 
+sed -i -e "s|^preload = .*$|preload = $1|" \
+       -e "s|^wallpaper = .*$|wallpaper = ,$1|" \
+       "$hyprpaper_config_file"
 
-# Check if Hyprpaper is running
+# Reload hyprpaper
+killall -e hyprpaper & 
+sleep 1; 
+hyprpaper &
 
+# Let the user know it's done
+echo "Wallpaper settings in hyprpaper.conf updated successfully."
 

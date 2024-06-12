@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import os
 import glob
 import subprocess
@@ -5,10 +7,9 @@ import subprocess
 folder_path = '/home/jayrup/Pictures/wallpapers/'
 
 def get_current_wallpaper() -> str:
-    process = subprocess.Popen(['current_wal'], stdout=subprocess.PIPE)
-    output,err = process.communicate()
+    output = subprocess.run(['current_wal'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
-    return output.decode().strip()
+    return output.stdout.decode().strip()
 
 def get_next_wallpaper(current_wallpaper:str, files:list) -> str:
     for index,file in enumerate(files):
@@ -17,7 +18,7 @@ def get_next_wallpaper(current_wallpaper:str, files:list) -> str:
                 return files[index+1]
                 break
             except:
-                print('next file does not exist, restarting the loop')
+                # print('next file does not exist, restarting the loop')
                 return files[0]
                 break
     
@@ -27,6 +28,5 @@ current_wallpaper = get_current_wallpaper()
 files = glob.glob(folder_path+'*')
 
 next_wallpaper = get_next_wallpaper(current_wallpaper,files)
+print(next_wallpaper)
 
-process = subprocess.Popen(['hyprctl','hyprpaper','unload', 'all'],stdout=subprocess.PIPE)
-process.communicate()
