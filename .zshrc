@@ -103,6 +103,10 @@ fcd (){
   cd "$(fd --full-path $(pwd) -t d | fzf)"
 }
 
+next_wal (){
+  ~/.config/hypr/scripts/set_wallpaper.sh $(~/.config/hypr/scripts/next_wallpaper.py) & ~/.config/hypr/scripts/generate_colorscheme.py
+}
+
 # qnvimt (){
 #   export NVIM_APPNAME='kickstart' && nvim $(pwd)
 # }
