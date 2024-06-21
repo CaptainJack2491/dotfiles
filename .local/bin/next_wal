@@ -1,0 +1,3 @@
+#!/bin/bash
+
+~/.config/hypr/scripts/set_wallpaper.sh $(~/.config/hypr/scripts/next_wallpaper.py) & ~/.config/hypr/scripts/generate_colorscheme.py
