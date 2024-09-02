@@ -1,1 +1,6 @@
 .stow-local-ignore
+lazy-lock.json
+# hypr configs which are subject to changes
+hyprpaper.conf
+monitors.conf
+workspaces.conf
