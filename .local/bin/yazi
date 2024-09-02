@@ -1,3 +1,0 @@
-#!/bin/bash
-
-/home/jayrup/.local/apps/yazi/target/release/yazi $(pwd)
