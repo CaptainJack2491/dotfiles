@@ -10,5 +10,6 @@ output = subprocess.run(['hyprctl','hyprpaper','listactive'], stdout=subprocess.
 
 
 path = output.stdout.decode().split('=')[1].strip()
-generate_colorscheme_process = subprocess.run(['wallust',path], stdout=subprocess.PIPE)
+generate_colorscheme_process = subprocess.run(f"wal -i {path} -n", shell=True,stdout=subprocess.PIPE)
+subprocess.run(f"hyprctl hyprpaper unload all", shell=True)
 print('Updated colorscheme for', path)

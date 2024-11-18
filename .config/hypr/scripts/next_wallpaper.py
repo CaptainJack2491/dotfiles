@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 
-import os
 import glob
 import subprocess
 
@@ -11,16 +10,14 @@ def get_current_wallpaper() -> str:
 
     return output.stdout.decode().strip()
 
-def get_next_wallpaper(current_wallpaper:str, files:list) -> str:
+def get_next_wallpaper(current_wallpaper:str, files:list[str]) -> str:
     for index,file in enumerate(files):
         if file == current_wallpaper:
             try:
                 return files[index+1]
-                break
             except:
                 # print('next file does not exist, restarting the loop')
                 return files[0]
-                break
     
 
 current_wallpaper = get_current_wallpaper()

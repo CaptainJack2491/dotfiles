@@ -100,7 +100,7 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 fcd (){
-  cd "$(fd --full-path $(pwd) -t d | fzf)"
+  z "$(fd --full-path $(pwd) -t d | fzf)"
 }
 
 # qnvimt (){
@@ -111,10 +111,24 @@ export EDITOR=nvim
 fastfetch
 alias vi="nvim"
 alias vim="nvim"
+alias cd="z"
+alias pdf="mupdf"
 alias hconf="cd ~/dotfiles/.config && nvim /home/jayrup/.config/hypr/hyprland.conf"
 alias vpnexit="sudo tailscale up --exit-node=vps-server --exit-node-allow-lan-access"
 alias vpnreset="sudo tailscale up --reset"
 
-PATH=/home/jayrup/.local/bin:$PATH
+GOPATH=$HOME/go
+JAVAPATH=/usr/lib/jvm/java-11-openjdk/bin
+PATH=$JAVAPATH:$GOPATH/bin:$GOROOT/bin:$HOME/.local/bin:$PATH
+XDG_CONFIG_HOME=$HOME/.config
 
-# eval "$(zoxide init zsh)"
+eval "$(zoxide init zsh)"
+eval $(thefuck --alias)
+
+
+# bun completions
+[ -s "/home/jayrup/.bun/_bun" ] && source "/home/jayrup/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
