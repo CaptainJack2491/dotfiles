@@ -1,0 +1,144 @@
+#!/bin/bash
+
+# Define search engine URLs and prefixes
+declare -A search_engines=(
+  ["DEFAULT"]="https://google.com/search?q="
+  ["aw"]="https://wiki.archlinux.org/?search="
+  ["yt"]="https://www.youtube.com/results?search_query="
+  ["wiki"]="https://en.wikipedia.org/w/index.php?search="
+  ["gh"]="https://github.com/search?q="
+  ["ddg"]="https://duckduckgo.com/?q="
+  ["gpt"]="https://chat.openai.com/?q=" # Using chat.openai.com as it's the common one
+  ["so"]="https://stackoverflow.com/search?q="
+  ["r"]="https://www.reddit.com/search?q="
+  ["img"]="https://www.google.com/search?tbm=isch&q="
+  ["map"]="https://www.google.com/maps/search/" # Maps often uses path, but works with search term
+  ["pp"]="https://www.perplexity.ai/search?q="
+  # ["claude"]="https://claude.ai/chat/?q=" # Include if this works reliably for you
+)
+
+# Function for simple URL encoding
+urlencode() {
+  local string="${1}"
+  local strlen=${#string}
+  local encoded_string=""
+  local pos c o
+
+  for pos in $(seq 0 $((strlen - 1))); do
+    c=${string:$pos:1}
+    case "$c" in
+      [-_.~a-zA-Z0-9]) o="${c}" ;;
+      ' ') o="%20" ;;
+      *) printf -v o '%%%02x' "'$c" ;;
+    esac
+    encoded_string+="${o}"
+  done
+  echo "${encoded_string}"
+}
+
+# Function to display usage instructions
+usage() {
+  echo "Usage: $(basename "$0") [OPTIONS] [ENGINE_PREFIX] <search term>"
+  echo "Search the web using predefined engines."
+  echo ""
+  echo "Options:"
+  echo "  -l, --list    List available search engines and prefixes."
+  echo "  -h, --help    Show this help message."
+  echo ""
+  echo "Arguments:"
+  echo "  ENGINE_PREFIX  A short prefix for the desired search engine (e.g., wiki, yt)."
+  echo "  <search term>  The query you want to search for."
+  echo ""
+  echo "If no ENGINE_PREFIX is provided, the DEFAULT engine is used."
+  echo "If no <search term> is provided and no arguments are given, attempts to use clipboard content."
+  echo ""
+  echo "Examples:"
+  echo "  $(basename "$0") my query"           # Uses default engine (Google)
+  echo "  $(basename "$0") wiki linux"         # Uses Wikipedia
+  echo "  $(basename "$0") gpt what is AI"     # Uses ChatGPT
+  echo "  $(basename "$0") -l"               # List engines
+  echo "  $(basename "$0")"                   # Searches clipboard content on default engine
+}
+
+# Main search function
+search() {
+  local search_term=""
+  local engine="DEFAULT" # Default search engine
+  local prefix=""
+
+  # --- Handle options ---
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case $key in
+      -h|--help)
+        usage
+        return 0
+        ;;
+      -l|--list)
+        echo "Available search engines:"
+        for key in "${!search_engines[@]}"; do
+          printf "  %-10s %s\n" "$key" "${search_engines[$key]}"
+        done
+        return 0
+        ;;
+      *)
+        # Stop processing options, assume it's engine prefix or search term
+        break
+        ;;
+    esac
+    shift # past argument
+  done
+
+  # --- Handle no arguments (use clipboard) ---
+  if [[ $# -eq 0 ]]; then
+    # Try to get clipboard content
+    local clipboard_content=""
+    if command -v xclip > /dev/null 2>&1; then
+      clipboard_content=$(xclip -selection clipboard -o 2>/dev/null)
+    elif command -v pbpaste > /dev/null 2>&1; then # Correct for macOS
+      clipboard_content=$(pbpaste 2>/dev/null)
+    fi
+
+    if [[ -n "$clipboard_content" ]]; then
+      echo "No arguments provided. Using clipboard content for search on '$engine'..."
+      search_term="$clipboard_content"
+      # engine is already DEFAULT
+    else
+      # If clipboard is empty or commands not found
+      echo "Error: No search term provided and clipboard is empty or unreachable."
+      usage
+      return 1
+    fi
+  else
+    # --- Process arguments for prefix and search term ---
+    local first_arg="$1"
+    # Check if the first argument is a known prefix
+    if [[ -v "search_engines[$first_arg]" ]]; then
+      prefix="$first_arg"
+      engine="$prefix"
+      shift # Remove prefix from arguments
+      search_term="$*" # Remaining arguments are the search term
+
+      # Check if search_term is empty after removing prefix
+      if [[ -z "$search_term" ]]; then
+        echo "Error: No search term provided after prefix '$prefix'."
+        usage
+        return 1
+      fi
+    else
+      # First argument is not a prefix, treat all arguments as the search term
+      search_term="$*"
+      # engine remains DEFAULT
+    fi
+  fi
+
+  # --- Construct and open URL ---
+  local encoded_search_term=$(urlencode "$search_term")
+  local search_url="${search_engines[$engine]}${encoded_search_term}"
+
+  echo "Searching for \"$search_term\" on $engine..."
+  qutebrowser "$search_url"
+}
+
+# Execute the search function with all script arguments
+search "$@"

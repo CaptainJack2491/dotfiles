@@ -1,0 +1,25 @@
+#!/bin/zsh
+
+# Define the filename based on the current timestamp
+timestamp=$(date +%Y%m%d_%H%M%S)
+filename="screenshot_${timestamp}.png"
+device_path="/sdcard/Download/screenshots/${filename}"
+local_path="~/Pictures/phone_screenshots/${filename}"
+
+# Wait for 2 seconds
+sleep 2
+
+# Take the screenshot
+adb shell screencap "$device_path"
+
+# Pull the screenshot to the local directory
+if [ $? -eq 0 ]; then
+  adb pull "$device_path" "$local_path"
+  notify-send "Screenshot saved"
+  echo "Screenshot saved as: $local_path"
+else
+  echo "Error taking screenshot."
+fi
+
+# Optional: Remove the screenshot from the device after pulling
+# adb shell rm "$device_path"
