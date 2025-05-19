@@ -5,7 +5,9 @@ return {
     config = function()
       require("mason").setup({
         ensure_installed = {
-          "java"
+          "java",
+          "lua-language-server",
+          "pyright"
         }
       })
     end,
@@ -38,10 +40,16 @@ return {
       }
       local capabilities = require('cmp_nvim_lsp').default_capabilities()
       local lspconfig = require("lspconfig")
+
       lspconfig.lua_ls.setup({
         capabilities = capabilities
       })
+
       lspconfig.pyright.setup({
+        capabilities = capabilities
+      })
+
+      lspconfig.gdscript.setup({
         capabilities = capabilities
       })
 

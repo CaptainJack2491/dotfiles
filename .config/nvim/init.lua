@@ -14,16 +14,24 @@ vim.wo.number = true
 vim.wo.signcolumn = "number"
 vim.wo.relativenumber = true
 
+vim.opt.mouse = ""
+
 vim.opt.conceallevel = 1
 
 local opts = {}
 vim.g.mapleader = ' '
 
+-- see if the host dir is a godot project
+local gdproject = io.open(vim.fn.getcwd()..'/project.godot', 'r')
+if gdproject then
+    io.close(gdproject)
+    vim.fn.serverstart './godothost'
+end
+
+
+
 require("vim-options")
 require("lazy").setup("plugins")
-
-
-
 
 
 
