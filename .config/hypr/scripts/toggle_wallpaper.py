@@ -32,4 +32,10 @@ print(activewal)
 next_wallpaper = get_next_wallpaper(activewal,wallpaper_files)
 print(next_wallpaper)
 change_wallpaper(wallpaper_dir+next_wallpaper)
+
+print('writing to the cache file')
+status_file = os.path.expanduser("~/.cache/current_wallpaper.txt")
+with open(status_file, 'w') as f:
+    f.write(wallpaper_dir+next_wallpaper)
+
 generate_colorscheme(wallpaper_dir+next_wallpaper)
