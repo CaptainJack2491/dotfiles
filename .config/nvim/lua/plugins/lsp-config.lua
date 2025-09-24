@@ -7,7 +7,10 @@ return {
         ensure_installed = {
           "java",
           "lua-language-server",
-          "pyright"
+          "pyright",
+          "go",
+          "rust_analyzer",
+          "codelldb",
         }
       })
     end,
@@ -18,16 +21,15 @@ return {
     opts = {
       auto_install = true,
     },
-    --[[
     config = function()
       require("mason-lspconfig").setup({
         ensure_installed = {
           "lua_ls",
           "pyright",
+          "rust_analyzer",
         }
       })
     end,
-    --]]
   },
   {
     "neovim/nvim-lspconfig",
@@ -45,6 +47,12 @@ return {
         capabilities = capabilities
       })
 
+      lspconfig.gopls.setup({
+        capabilities = capabilities
+      })
+      lspconfig.tinymist.setup({
+        capabilities = capabilities
+      })
       lspconfig.pyright.setup({
         capabilities = capabilities
       })
