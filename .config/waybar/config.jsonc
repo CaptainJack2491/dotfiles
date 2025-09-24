@@ -18,7 +18,8 @@
 
     "modules-center": [
       "clock",
-      "custom/weather"
+      "custom/weather",
+      "custom/tailscale",
     ],
 
     "modules-right": [
@@ -50,8 +51,8 @@
     "battery": {
       "states": {
             // "good": 95,
-            "warning": 30,
-            "critical": 15
+            "warning": 20,
+            "critical": 10
       },
       "format": "{capacity}% {icon} ",
       "format-charging": "{capacity}% 󰂄",
@@ -138,23 +139,37 @@
       "max-length": 120
     },
 
-    "hyprland/workspaces": {
-      "disable-scroll": true,
-      "disable-markup" : false,
-      "all-outputs": true,
-      "format": "{name}",
-        //"format":"{name}:{icon}",
-        "format-icons": {
-          "1": "󰅬",
-          "2": "",
-          "3": "",
-          "4": "",
-            // "5": "󰡨",
-            // "6": "",
-            // "7": "",
-            "10": ""
-        }
+  "hyprland/workspaces": {
+    "disable-scroll": true,
+    "disable-markup" : false,
+    "all-outputs": true,
+    "format": "{name}",
+    //"format":"{name}:{icon}",
+    "format-icons": {
+      "1": "󰅬",
+      "2": "",
+      "3": "",
+      "4": "",
+      // "5": "󰡨",
+      // "6": "",
+      // "7": "",
+      "10": ""
+    }
+  },
+
+  "custom/tailscale" : {
+    "exec": "~/.config/waybar/scripts/tailscale.sh --status",
+    "on-click": "~/.config/waybar/scripts/tailscale.sh --toggle",
+    "exec-on-event": true,
+    "format": "Tailscale {icon}",
+    "format-icons": {
+      "connected": "on",        
+      "stopped": "off"
     },
+    "tooltip": true,
+    "return-type": "json",
+    "interval": 3,
+  },
 
     "pulseaudio": {
       "scroll-step": 1, // %, can be a float
@@ -193,7 +208,7 @@
     "custom/weather": {
       "exec": "~/.config/waybar/scripts/weather.sh london", 
       "return-type": "json",
-      "interval": 600
+      "interval": 1000
     },
 
     "custom/ping": {
