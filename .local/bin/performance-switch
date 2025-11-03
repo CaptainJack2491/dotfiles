@@ -1,0 +1,101 @@
+#!/usr/bin/env bash
+
+# Configuration file path managed exclusively by this script
+CONF_FILE="/etc/tlp.d/01-script.conf"
+# CPU RAPL PowerCap paths
+PL1_PATH="/sys/class/powercap/intel-rapl:0/constraint_0_power_limit_uw"
+PL2_PATH="/sys/class/powercap/intel-rapl:0/constraint_1_power_limit_uw"
+
+if [ "$EUID" -ne 0 ]; then
+  echo "Please run with sudo or as root."
+  exit 1
+fi
+
+# Function to write the base TLP settings to the dedicated file
+WRITE_CONFIG() {
+cat <<EOF > "$CONF_FILE"
+# TLP configuration managed by performance-switch script
+# -----------------------------------------------------------------
+# CPU Core Management (Core Ultra 7 155U)
+CPU_SCALING_GOVERNOR_ON_AC="$1"
+CPU_SCALING_GOVERNOR_ON_BAT="$2"
+CPU_ENERGY_PERF_POLICY_ON_AC="$3"
+CPU_ENERGY_PERF_POLICY_ON_BAT="$4"
+CPU_BOOST_ON_AC="$5"
+CPU_BOOST_ON_BAT="$6"
+CPU_MAX_PERF_ON_AC="$7"
+CPU_MAX_PERF_ON_BAT="$8"
+
+# Platform Profile
+PLATFORM_PROFILE_ON_AC="$9"
+PLATFORM_PROFILE_ON_BAT="${10}"
+
+# Device Power Saving (Maximized for Battery Mode)
+PCIE_ASPM_ON_AC="default"
+PCIE_ASPM_ON_BAT="powersupersave"
+RUNTIME_PM_ON_AC="on"
+RUNTIME_PM_ON_BAT="auto"
+USB_AUTOSUSPEND=1
+WIFI_PWR_ON_AC=off
+WIFI_PWR_ON_BAT=on
+SOUND_POWER_SAVE_ON_AC=1
+SOUND_POWER_SAVE_ON_BAT=1
+EOF
+}
+
+# Mode 1: MAX BATTERY LIFE
+BATTERY_MODE() {
+    # Arguments: AC_GOV BAT_GOV AC_EPP BAT_EPP AC_BOOST BAT_BOOST AC_PERF BAT_PERF AC_PROF BAT_PROF
+    WRITE_CONFIG "powersave" "powersave" "balance_performance" "power" "1" "0" "100" "20" "balanced" "low-power"
+    
+    # Reset Power Limits to default 15W TDP (for safety/battery life)
+    echo 15000000 | sudo tee "$PL1_PATH" > /dev/null
+    echo 15000000 | sudo tee "$PL2_PATH" > /dev/null
+    
+    sudo tlp bat # Force TLP to apply BAT settings immediately
+    echo "Switched to MAX BATTERY LIFE mode. Power capped at 15W. 🔋"
+}
+
+# Mode 2: BALANCED
+BALANCED_MODE() {
+    # Arguments: AC_GOV BAT_GOV AC_EPP BAT_EPP AC_BOOST BAT_BOOST AC_PERF BAT_PERF AC_PROF BAT_PROF
+    WRITE_CONFIG "powersave" "powersave" "balance_performance" "balance_power" "1" "1" "100" "60" "balanced" "balanced"
+    
+    # Set to a moderate sustained power limit
+    echo 28000000 | sudo tee "$PL1_PATH" > /dev/null
+    echo 40000000 | sudo tee "$PL2_PATH" > /dev/null
+    
+    sudo tlp start
+    echo "Switched to BALANCED mode. Default power limits applied. ⚖️"
+}
+
+# Mode 3: MAX PERFORMANCE
+PERFORMANCE_MODE() {
+    # Arguments: AC_GOV BAT_GOV AC_EPP BAT_EPP AC_BOOST BAT_BOOST AC_PERF BAT_PERF AC_PROF BAT_PROF
+    WRITE_CONFIG "performance" "performance" "performance" "performance" "1" "1" "100" "100" "performance" "performance"
+    
+    # FORCE MAX POWER LIMITS (Overriding the throttling cap)
+    # Your BIOS defaults to 57W, but forcing it ensures the kernel respects it.
+    echo 57000000 | sudo tee "$PL1_PATH" > /dev/null
+    echo 57000000 | sudo tee "$PL2_PATH" > /dev/null
+    
+    sudo tlp start
+    echo "Switched to MAX PERFORMANCE mode. Power limits forced to 57W. 🚀"
+}
+
+# --- Main Logic ---
+
+case "$1" in
+    battery|bat)
+        BATTERY_MODE
+        ;;
+    balanced|bal)
+        BALANCED_MODE
+        ;;
+    performance|perf)
+        PERFORMANCE_MODE
+        ;;
+    *)
+        echo "Usage: sudo $0 {battery|balanced|performance}"
+        exit 1
+esac
