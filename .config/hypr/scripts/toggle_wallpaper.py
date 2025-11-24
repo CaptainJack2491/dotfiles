@@ -27,10 +27,10 @@ def generate_colorscheme(wallpaper) -> None:
 active_wal = subprocess.run(["hyprctl", "hyprpaper", "listactive"], capture_output=True, text=True)
 activewal = active_wal.stdout.strip()
 
-activewal = activewal.split()[2]
-print(activewal)
+activewal = activewal.split()[-1]
+print("active wal: "+activewal)
 next_wallpaper = get_next_wallpaper(activewal,wallpaper_files)
-print(next_wallpaper)
+print("next wal: "+wallpaper_dir+next_wallpaper)
 change_wallpaper(wallpaper_dir+next_wallpaper)
 
 print('writing to the cache file')
