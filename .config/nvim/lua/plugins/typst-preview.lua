@@ -1,7 +1,10 @@
 return {
   'chomosuke/typst-preview.nvim',
-  lazy = true, -- or ft = 'typst'
   ft = 'typst',
   version = '1.*',
-  opts = {}, -- lazy.nvim will implicitly calls `setup {}`
+  opts = {
+    -- invert_colors='always',
+    -- open_cmd = 'qutebrowser --target window %s'
+    open_cmd = 'chromium --app=%s'
+  }, -- lazy.nvim will implicitly calls `setup {}`
 }
