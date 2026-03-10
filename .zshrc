@@ -107,11 +107,29 @@ fcd (){
 #   export NVIM_APPNAME='kickstart' && nvim $(pwd)
 # }
 
+wcp() {
+  wl-copy < $1
+}
+
+llm-server() {
+  llama-server \
+      -hf ggml-org/Qwen2.5-Coder-1.5B-Q8_0-GGUF \
+      --port 8012 \
+      --ctx-size 4096 \
+      --threads $(nproc) \
+      --no-mmap \
+      --cache-reuse 256
+  }
+
 export EDITOR=nvim
 fastfetch
+alias up="tailscale up"
+alias down="tailscale down"
 alias vi="nvim"
 alias vim="nvim"
 alias cd="z"
+alias S="sudo pacman -S"
+alias F="sudo pacman -Fy"
 alias pdf="zathura"
 alias hconf="cd ~/dotfiles/.config && nvim /home/jayrup/.config/hypr/hyprland.conf"
 alias vpnexit="sudo tailscale up --exit-node=spain-vps --exit-node-allow-lan-access"
@@ -128,11 +146,15 @@ eval "$(zoxide init zsh)"
 
 
 # bun completions
-[ -s "/home/jayrup/.bun/_bun" ] && source "/home/jayrup/.bun/_bun"
+# [ -s "/home/jayrup/.bun/_bun" ] && source "/home/jayrup/.bun/_bun"
 
 # bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
+# export BUN_INSTALL="$HOME/.bun"
+# export PATH="$BUN_INSTALL/bin:$PATH"
+
+alias sv="source .venv/bin/activate"
+
+# . "$HOME/.local/share/../bin/env"
 
 # Added by LM Studio CLI (lms)
 export PATH="$PATH:/home/jayrup/.lmstudio/bin"
