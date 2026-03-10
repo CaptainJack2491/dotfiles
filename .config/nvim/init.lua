@@ -13,6 +13,7 @@ vim.opt.rtp:prepend(lazypath)
 vim.wo.number = true
 vim.wo.signcolumn = "number"
 vim.wo.relativenumber = true
+vim.wo.linebreak = true
 
 vim.opt.mouse = ""
 
@@ -32,7 +33,6 @@ end
 
 require("vim-options")
 require("lazy").setup("plugins")
-
 
 
 
