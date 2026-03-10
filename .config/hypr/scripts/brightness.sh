@@ -8,8 +8,8 @@ if ! cur=$(brightnessctl g 2>/dev/null) || ! max=$(brightnessctl m 2>/dev/null);
 fi
 curp=$(( cur * 100 / max ))
 
-# Prompt user with wofi (dmenu mode). Default value shown is current percent.
-input="$(printf '%s\n' "$curp" | wofi --dmenu -p "Brightness (%)")" || exit 0
+# Prompt user with fuzzel. Default value shown is current percent.
+input="$(printf '%s\n' "$curp" | fuzzel --dmenu --prompt "Brightness (%): ")" || exit 0
 
 # Trim whitespace and optional percent sign
 input="$(printf '%s' "$input" | tr -d '[:space:]')"
