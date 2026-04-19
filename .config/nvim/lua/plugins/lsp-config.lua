@@ -12,6 +12,7 @@ return {
           "rust_analyzer",
           "codelldb",
           "debugpy",
+          "clangd",
         }
       })
     end,
@@ -27,33 +28,22 @@ return {
     "neovim/nvim-lspconfig",
     lazy = false,
     config = function()
-      -- This part for cmp is still needed and correct
-      require'cmp'.setup {
-        sources = {
-          { name = 'nvim_lsp' }
-        }
-      }
-
-      -- Get capabilities from cmp_nvim_lsp
       local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-      -- NEW WAY: Set global defaults for all LSPs
-      -- This applies your capabilities to every server
-      vim.lsp.config('*', {
-        capabilities = capabilities
-      })
-
-      -- NEW WAY: Enable the servers you want to use
-      -- nvim-lspconfig provides the default settings,
-      -- and mason-lspconfig will auto-install them.
       local servers = {
         "lua_ls",
         "gopls",
         "tinymist",
         "pyright",
         "gdscript",
-        -- "rust_analyzer", -- I added this from your mason-lspconfig
+        "clangd",
       }
+
+      for _, server in ipairs(servers) do
+        vim.lsp.config(server, {
+          capabilities = capabilities,
+        })
+      end
 
       vim.lsp.enable(servers)
 

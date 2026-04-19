@@ -16,6 +16,5 @@ return {
     end,
   },
 
-  -- Debugging engine (This is good, keep it)
-  { "mfussenegger/nvim-dap" },
+
 }

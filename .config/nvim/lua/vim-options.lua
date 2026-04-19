@@ -10,7 +10,7 @@ if vim.fn.isdirectory(undodir) == 0 then
     vim.fn.mkdir(undodir, 'p')
 end
 
-vim.opt.undodir = undodir
+vim.opt.undodir = vim.fn.stdpath('data') .. '/undo'
 vim.opt.undofile = true
 
 -- Simple manual toggle for visual line movement (useful for Typst/Markdown)
